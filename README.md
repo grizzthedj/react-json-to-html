@@ -14,8 +14,6 @@ npm install react-json-to-html --save
 
 A simple example. Download and run the demo for more examples, or browse the [examples here]( http://grizzthedj.github.io/react-json-to-html/demo/public).
 
-![alt tag](https://user-images.githubusercontent.com/9720835/35484781-f5faabd0-0422-11e8-9144-b622394f96a1.png)
-
 ```js
 import React from 'react';
 import JsonTable from 'react-json-to-html';
@@ -39,6 +37,9 @@ class Nested extends React.Component {
 
 export default JsonTable;
 ```
+![alt tag](https://user-images.githubusercontent.com/9720835/35484781-f5faabd0-0422-11e8-9144-b622394f96a1.png)
+
+
 ## JsonTable props
 | Name         | Type     | Required | Default                 | Possible Values              | Description     |
 | ------------ | -------- | -------- | ----------------------- | ---------------------------- | --------------- |
@@ -55,3 +56,6 @@ gulp demo
 Browse http://localhost:8080
 ```
 
+## Backlog
+1. Add more props to control styling and CSS
+2. More tests
