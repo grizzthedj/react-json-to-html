@@ -14,12 +14,28 @@ npm install react-json-to-html --save
 
 A simple example. Download and run the demo for more examples, or browse the [examples here]( http://grizzthedj.github.io/react-json-to-html/demo/public).
 
-![alt tag](https://cloud.githubusercontent.com/assets/9720835/22619923/7ddd5d42-eacd-11e6-9bda-ee9be66cb64b.png)
+![alt tag](https://user-images.githubusercontent.com/9720835/35484781-f5faabd0-0422-11e8-9144-b622394f96a1.png)
 
 ```js
 import React from 'react';
 import JsonTable from 'react-json-to-html';
 
+class Nested extends React.Component {
+  const json = {
+    "Server Name": "foo",
+    "Description": "bar",
+    "Specs": {
+      "IP": "10.100.99.101",
+      "MAC": "00:0a:XX:9F:XX:16"
+    },
+    "Date": "Jan 1, 2018"
+  }
+  render() {
+    return (
+      <JsonTable json={json} />
+    )
+  }
+}
 
 export default JsonTable;
 ```

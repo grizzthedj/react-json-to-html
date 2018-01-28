@@ -27,7 +27,7 @@ class Nested extends React.Component {
           import React from 'react';<br />
           import JsonTable from 'react-json-to-html';<br />
           <br />
-          class Nexted extends React.Component &#123;<br />
+          class Nested extends React.Component &#123;<br />
             &nbsp;&nbsp;const json = &#123;<br />
             &nbsp;&nbsp;&nbsp;&nbsp;"Server Name": "foo",<br />
             &nbsp;&nbsp;&nbsp;&nbsp;"Description": "bar",<br />
