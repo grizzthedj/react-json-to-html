@@ -14003,7 +14003,7 @@ var Nested = function (_React$Component) {
               'import JsonTable from \'react-json-to-html\';',
               _react2.default.createElement('br', null),
               _react2.default.createElement('br', null),
-              'class Nexted extends React.Component {',
+              'class Nested extends React.Component {',
               _react2.default.createElement('br', null),
               '\xA0\xA0const json = {',
               _react2.default.createElement('br', null),
