@@ -2,7 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/react-json-to-html.svg)](https://badge.fury.io/js/react-json-to-html)
 
-A simple React component that renders and HTML table from a JSON object.
+A simple React component that renders an HTML table from a JSON object.
 
 ## Installation
 
