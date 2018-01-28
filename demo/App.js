@@ -13,6 +13,7 @@ class App extends React.Component {
         <ul>
           <li><Link to="/simple">Simple HTML table</Link></li>
           <li><Link to="/nested">HTML table with nested attributes</Link></li>
+          <li><Link to="/complex">Complex HTML table with multiple nested attributes</Link></li>
         </ul>
       </div>
     );
