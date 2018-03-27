@@ -16,7 +16,7 @@ A simple example. Download and run the demo for more examples, or browse the [ex
 
 ```js
 import React from 'react';
-import JsonTable from 'react-json-to-html';
+import {JsonTable} from 'react-json-to-html';
 
 class Nested extends React.Component {
   const json = {
