@@ -35,12 +35,14 @@
     "react-router": "^3.0.2",
     "react-test-renderer": "^15.4.2",
     "webpack": "^2.2.1",
-    "webpack-dev-server": "^2.2.0"
+    "webpack-dev-server": "^2.2.0",
+    "@types/react": "*"  
   },
   "peerDependencies": {
     "react": "^15.4.2"
   },
   "jest": {
     "verbose": true
-  }
+  },
+  "typings": "./index.d.ts"
 }
