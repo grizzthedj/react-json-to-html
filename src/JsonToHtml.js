@@ -11,6 +11,7 @@ var JsonToHtml = (function() {
   var getTable = function(jsonObj) {
     html = '<table cellspacing="1" style="border-spacing:2px">';
     jsonObjOrig = jsonObj;
+    level = 0;
     walkTheDog(jsonObj);
     html += '</table>';
     return html;
