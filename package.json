@@ -36,7 +36,7 @@
     "react-test-renderer": "^15.4.2",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.2.0",
-    "@types/react": "*"  
+    "@types/react": "*"
   },
   "peerDependencies": {
     "react": "^15.4.2"
