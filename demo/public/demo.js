@@ -14035,12 +14035,18 @@ var Complex = function (_React$Component) {
           "Network": {
             "IP": "10.100.99.101",
             "MAC": "00:0a:XX:9F:XX:16",
-            "Interfaces": ["nic-1", "nic-2", "nic-2"]
+            "Interfaces": ["nic-1", "nic-2", "nic-3"]
           },
           "Hardware": {
+            "Drive Bays": ["bay-1", "bay-2", "bay-3", "bay-4"],
             "Cores": "24",
-            "Memory": "256 GB",
-            "Storage": "50 TB"
+            "Memory": "256 GB"
+          },
+          "Storage": {
+            "Type": "Object",
+            "Vendor": "Some Vendor",
+            "IOPS": "1000",
+            "Size": "26 TB"
           }
         }
       };
@@ -14099,7 +14105,7 @@ var Complex = function (_React$Component) {
               _react2.default.createElement('br', null),
               '\xA0\xA0\xA0\xA0\xA0\xA0\xA0\xA0"Interfaces": [',
               _react2.default.createElement('br', null),
-              '\xA0\xA0\xA0\xA0\xA0\xA0\xA0\xA0\xA0\xA0"nic-1", "nic-2", "nic-2"',
+              '\xA0\xA0\xA0\xA0\xA0\xA0\xA0\xA0\xA0\xA0"nic-1", "nic-2", "nic-3"',
               _react2.default.createElement('br', null),
               '\xA0\xA0\xA0\xA0\xA0\xA0\xA0\xA0] ',
               _react2.default.createElement('br', null),
@@ -14107,11 +14113,27 @@ var Complex = function (_React$Component) {
               _react2.default.createElement('br', null),
               '\xA0\xA0\xA0\xA0\xA0\xA0"Hardware": {',
               _react2.default.createElement('br', null),
+              '\xA0\xA0\xA0\xA0\xA0\xA0\xA0\xA0"Drive Bays": [',
+              _react2.default.createElement('br', null),
+              '\xA0\xA0\xA0\xA0\xA0\xA0\xA0\xA0\xA0\xA0"bay-1", "bay-2", "bay-3", "bay-4"',
+              _react2.default.createElement('br', null),
+              '\xA0\xA0\xA0\xA0\xA0\xA0\xA0\xA0] ',
+              _react2.default.createElement('br', null),
               '\xA0\xA0\xA0\xA0\xA0\xA0\xA0\xA0"Cores": "24",',
               _react2.default.createElement('br', null),
               '\xA0\xA0\xA0\xA0\xA0\xA0\xA0\xA0"Memory": "256 GB",',
               _react2.default.createElement('br', null),
-              '\xA0\xA0\xA0\xA0\xA0\xA0\xA0\xA0"Storage": "50 TB"',
+              '\xA0\xA0\xA0\xA0\xA0\xA0}',
+              _react2.default.createElement('br', null),
+              '\xA0\xA0\xA0\xA0\xA0\xA0"Storage": {',
+              _react2.default.createElement('br', null),
+              '\xA0\xA0\xA0\xA0\xA0\xA0\xA0\xA0"Type": "Object",',
+              _react2.default.createElement('br', null),
+              '\xA0\xA0\xA0\xA0\xA0\xA0\xA0\xA0"Vendor": "Some Vendor",',
+              _react2.default.createElement('br', null),
+              '\xA0\xA0\xA0\xA0\xA0\xA0\xA0\xA0"IOPS": "1000",',
+              _react2.default.createElement('br', null),
+              '\xA0\xA0\xA0\xA0\xA0\xA0\xA0\xA0"Size": "26 TB",',
               _react2.default.createElement('br', null),
               '\xA0\xA0\xA0\xA0\xA0\xA0}',
               _react2.default.createElement('br', null),
@@ -14434,6 +14456,8 @@ var JsonToHtml = function () {
   var suffix = '&nbsp;&nbsp;';
   var colspan = 2;
   var jsonObjOrig;
+  var subLevel = 0;
+  var componentLevel = 0;
 
   var getTable = function getTable(jsonObj) {
     html = '<table cellspacing="1" style="border-spacing:2px">';
@@ -14538,9 +14562,13 @@ var JsonToHtml = function () {
   };
 
   var walkTheDog = function walkTheDog(jsonObj) {
+    var hasArray = false;
+
     if (typeof jsonObj === 'string') {
       jsonObj = JSON.parse(jsonObj);
     }
+
+    subLevel = level;
 
     for (var k in jsonObj) {
       // Reset the indent if next element is root
@@ -14551,8 +14579,14 @@ var JsonToHtml = function () {
         rootClass = getStyleAttributes('subElement');
       }
 
+      componentLevel = subLevel;
+
       if (jsonObj.hasOwnProperty(k)) {
         var v = jsonObj[k];
+
+        if (hasArray) {
+          level = componentLevel;
+        }
 
         if ((typeof v === 'undefined' ? 'undefined' : _typeof(v)) === 'object') {
           colspan += level;
@@ -14567,10 +14601,12 @@ var JsonToHtml = function () {
 
         if (v instanceof Array) {
           html += processArray(v);
+          hasArray = true;
         }
 
         if ((typeof v === 'undefined' ? 'undefined' : _typeof(v)) === 'object' && !(v instanceof Array)) {
           walkTheDog(v);
+          level = subLevel - 1; // Outdent back 
         }
       }
     }

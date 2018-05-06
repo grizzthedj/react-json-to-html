@@ -7,6 +7,8 @@ var JsonToHtml = (function() {
   var suffix = '&nbsp;&nbsp;';
   var colspan = 2;
   var jsonObjOrig; 
+  var subLevel = 0;
+  var componentLevel = 0;
 
   var getTable = function(jsonObj) {
     html = '<table cellspacing="1" style="border-spacing:2px">';
@@ -112,9 +114,13 @@ var JsonToHtml = (function() {
   };
 
   var walkTheDog = function(jsonObj) {
+    var hasArray = false;
+
     if (typeof jsonObj === 'string') {
       jsonObj = JSON.parse(jsonObj);
     }
+
+    subLevel = level;
 
     for (var k in jsonObj) {
       // Reset the indent if next element is root
@@ -125,9 +131,15 @@ var JsonToHtml = (function() {
       else {
         rootClass = getStyleAttributes('subElement');
       }
+      
+      componentLevel = subLevel;
 
       if (jsonObj.hasOwnProperty(k)) {
         var v = jsonObj[k];
+        
+        if (hasArray) {
+          level = componentLevel;
+        }
 
         if (typeof v === 'object') {
           colspan += level; 
@@ -143,10 +155,12 @@ var JsonToHtml = (function() {
        
         if (v instanceof Array) {
           html += processArray(v);
+          hasArray = true;
         }
 
         if (typeof v === 'object' && !(v instanceof Array)) {
           walkTheDog(v);
+          level = subLevel - 1; // Outdent back 
         }
       }
     } 

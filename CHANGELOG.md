@@ -10,3 +10,9 @@
 ## TypeScript support and bug fix
 * Added TypeScript typedef
 * Fixed multiple calls to `getTable` didn't reset indentation.
+
+<a name="v0.0.3"></a>
+# v1.0.2 (2018/05/06)
+## Bug fix
+* Added proper outdenting for key value pairs in nested JSON objects
+

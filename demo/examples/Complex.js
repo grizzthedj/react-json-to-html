@@ -13,13 +13,21 @@ class Complex extends React.Component {
           "IP": "10.100.99.101",
           "MAC": "00:0a:XX:9F:XX:16",
           "Interfaces": [
-            "nic-1", "nic-2", "nic-2"
+            "nic-1", "nic-2", "nic-3"
           ]
         },
         "Hardware": {
+          "Drive Bays": [
+            "bay-1", "bay-2", "bay-3", "bay-4"
+          ],
           "Cores": "24",
-          "Memory": "256 GB",
-          "Storage": "50 TB"
+          "Memory": "256 GB"
+        },
+        "Storage": {
+          "Type": "Object",
+          "Vendor": "Some Vendor",
+          "IOPS": "1000",
+          "Size": "26 TB"
         }
       }
     }
@@ -47,13 +55,21 @@ class Complex extends React.Component {
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"IP": "10.100.99.101",<br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"MAC": "00:0a:XX:9F:XX:16",<br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Interfaces": [<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"nic-1", "nic-2", "nic-2"<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"nic-1", "nic-2", "nic-3"<br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;] <br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#125;,<br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Hardware": &#123;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Drive Bays": [<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"bay-1", "bay-2", "bay-3", "bay-4"<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;] <br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Cores": "24",<br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Memory": "256 GB",<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Storage": "50 TB"<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#125;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Storage": &#123;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Type": "Object",<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Vendor": "Some Vendor",<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"IOPS": "1000",<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Size": "26 TB",<br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#125;<br />
             &nbsp;&nbsp;&nbsp;&nbsp;&#125;,<br />
             &nbsp;&nbsp;&#125;<br />
