@@ -41,9 +41,11 @@ export default JsonTable;
 
 
 ## JsonTable props
-| Name         | Type     | Required | Default                 | Possible Values              | Description     |
-| ------------ | -------- | -------- | ----------------------- | ---------------------------- | --------------- |
-| json         | [Object] | Yes      | undefined               | Any valid JSON object        | The JSON that will get rendered as HTML table |
+| Name         | Type     | Required | Default                 | Possible Values         | Description     |
+| ------------ | -------- | -------- | ----------------------- | ----------------------- | --------------- |
+| json         | [Object] | Yes      | undefined               | Any valid JSON object   | The JSON that will get rendered as HTML table   |
+| css          | [Object] | No       | see the Css JSON below  | Css as JS               | Some CSS attributes that can be overridden |
+| indent       | Integer  | No       | 3                        | Any positive number    | Number of non breaking spaces for indentation of nested attributes |
  
 
 ## Download Examples
