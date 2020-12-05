@@ -14,16 +14,16 @@ gulp.task('clean-demo', function() {
   return del(['./demo/public/*.js']);
 });
 
-gulp.task('build-component', ['clean-build'], function() {
+gulp.task('build-component', gulp.series('clean-build', async function() {
   gulp.src(['./src/**/*.js', './src/*js'])
     .pipe(babel())
     .pipe(gulp.dest('./dist'));
-});
+}));
 
-gulp.task('build', ['clean-build', 'clean-demo'], shell.task([
+gulp.task('build', gulp.series(['clean-build', 'clean-demo'], shell.task([
   'gulp build-component',
   'webpack --config webpack.config.build-demo.js'
-]));
+])));
 
 gulp.task('demo', function() {
   new WebpackDevServer(webpack(demoConfig), {

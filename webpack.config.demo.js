@@ -3,6 +3,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
+  mode: 'production',
   context: path.resolve(__dirname, './demo'),
   entry: {
     app: ['./index.js','../src/App.js']
@@ -12,13 +13,10 @@ module.exports = {
     filename: '[name].bundle.js',
   },
   module: {
-    loaders: [{
+    rules: [{
       test: /\.js$/,
       exclude: /node_modules/,
-      loader: 'babel-loader',
-      query: {
-        presets:['es2015','react']
-      }
+      loader: 'babel-loader'
     }]
   }
 };

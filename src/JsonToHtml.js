@@ -3,47 +3,78 @@ import Css from './Css';
 var JsonToHtml = (function() {
   var html = '';
   var level = 0;
-  var rootClass = "";
+  var rootStyle = "";
   var suffix = '&nbsp;&nbsp;';
   var colspan = 2;
   var jsonObjOrig; 
   var subLevel = 0;
   var componentLevel = 0;
+  var cssProp = {};
+  var indentProp = 3;
+  let trStyles = "";
+  let tdStyles = "";
+  let spacerStyles = "";
+  let subElementStyles = "";
+  let dataCellStyles = "";
+  let rootElementStyles = "";
 
-  var getTable = function(jsonObj) {
-    html = '<table cellspacing="1" style="border-spacing:2px">';
+  var getTable = function(jsonObj, css, indent) {
+    cssProp = css || {};
+    indentProp = indent || 3;
+    validateProps(jsonObj, cssProp, indentProp);
+    trStyles = getStyleAttributes('jsonTr');
+    tdStyles = getStyleAttributes('jsonTd');
+    spacerStyles = getStyleAttributes('rowSpacer');
+    subElementStyles = getStyleAttributes('subElement');
+    dataCellStyles = getStyleAttributes('dataCell');
+    rootElementStyles = getStyleAttributes('rootElement');
     jsonObjOrig = jsonObj;
     level = 0;
+    html = '<table>';
     walkTheDog(jsonObj);
     html += '</table>';
     return html;
   };
 
+  var validateProps = function(jsonObj, css, indent) {
+    if (!Number.isInteger(indent) || Math.sign(indent) !== 1) {
+      throw "The indent prop must be a positive number"
+    }
+    if (typeof css !== 'object' || css === null || Array.isArray(css)) {
+      throw "The css prop must be an object(but not an array)"
+    }
+    if (typeof jsonObj !== 'object' || jsonObj === null || Array.isArray(jsonObj)) {
+      throw "The json prop must be an object(but not an array)"
+    }
+  }
+
   var getIndent = function(level) {
-    var indent = '&nbsp;&nbsp;'; 
+    var indent = '&nbsp;'; 
+    const singleIndent = [...Array(indentProp)].map((_, i) => "&nbsp;").join("")
 
     for (var i=0; i<level; i++) {
-      indent += '&nbsp;&nbsp;&nbsp;';
+      indent += singleIndent;
     }
 
     return indent;
   }
 
-  // TODO: This is such a hack, but css border-spacing is simply not working
   var getSpacer = function() {
-    return '<tr style="height:2px"></tr>';
+    return '<tr style="' + spacerStyles + '"></tr>';
   }
 
-  // Get the Css obj from Css.js, and return a semicolon separated list of styles
+  // Get the Css obj from Css.js(or from props if present), and return a semicolon 
+  // separated list of styles
   var getStyleAttributes = function(className) {
-    var cssObj = Css[className];
-    var keys = Object.keys(cssObj);
+    const defaultCssObj = Css[className];
+    const defaultKeys = Object.keys(defaultCssObj);
     var attributes = "";
 
-    for(var i=0; i<keys.length; i++) {
-      var key = keys[i];
-      var cssAttr = key.replace(/([A-Z])/g, "-$1").toLowerCase(); 
-      attributes += cssAttr + ":" + cssObj[key] + ";";
+    for(var i=0; i<defaultKeys.length; i++) {
+      const key = defaultKeys[i];
+      const cssAttr = key.replace(/([A-Z])/g, "-$1").toLowerCase(); 
+      var cssClass = (cssProp[className] && cssProp[className][key]) ? cssProp[className] : defaultCssObj;
+      attributes += cssAttr + ":" + cssClass[key] + ";";
     }
 
     return attributes;
@@ -70,19 +101,21 @@ var JsonToHtml = (function() {
             value = arr[0][k].toString();
           }
 
-          html += '<tr style="height:25px">';
-          html += '  <td style="' + getStyleAttributes('subElement') + '">' + getIndent(level) + k + suffix + '</td>';
-          html += '  <td style="' + getStyleAttributes('dataCell') + '">' + getIndent(level) + value + suffix + '</td>';
+          html += '<tr style="' + trStyles + '">';
+          html += '  <td style="' + subElementStyles + '">' + getIndent(level) + k + suffix + '</td>';
+          html += '  <td style="' + dataCellStyles + '">' + getIndent(level) + value + suffix + '</td>';
           html += '</tr>';
           html += getSpacer();
         }
       }
       else {
-        html = '<tr style="height:25px">';
+        html = '<tr style="' + trStyles + '">';
 
         for (var k in arr[0]) {
           distKeys.push(k);
-          html += '<td style="' + getStyleAttributes('subElement') + '">' + getIndent(level) + k + suffix + '</td>';
+          html += '<td style="' + subElementStyles + '">';
+          html +=   getIndent(level) + k + suffix
+          html += '</td>';
         }
 
         html += '</tr>';
@@ -90,11 +123,14 @@ var JsonToHtml = (function() {
 
         // Render a row for each obj, displaying the value for each distinct key
         for (var k in arr) {
-          html += '<tr style="height:25px">';
+          html += '<tr style="' + trStyles + '">';
 
           for (var i=0; i<distKeys.length; i++) {
-            html += '<td style="' + getStyleAttributes('dataCell') + '">' + getIndent(level) + arr[k][distKeys[i]] + suffix + '</td>';
+            html += '<td style="' + dataCellStyles + '">';
+            html +=   getIndent(level) + arr[k][distKeys[i]] + suffix;
+            html += '</td>';
           }
+
           html += '</tr>';
           html += getSpacer();
         }
@@ -104,8 +140,10 @@ var JsonToHtml = (function() {
     // Render a <tr> and <td> for each string in an array
     if (typeof arr[0] === 'string') {
       for (var k in arr) {
-        html += '<tr style="height:25px">';
-        html += '  <td style="' + getStyleAttributes('dataCell') + '" colspan="2">' + getIndent(level) + arr[k] + suffix + '</td>';
+        html += '<tr style="' + trStyles + '">';
+        html += '  <td style="' + dataCellStyles + '" colspan="2">';
+        html +=      getIndent(level) + arr[k] + suffix;
+        html += '  </td>';
         html += '</tr>';
       }
     }
@@ -126,10 +164,10 @@ var JsonToHtml = (function() {
       // Reset the indent if next element is root
       if (typeof jsonObjOrig[k] !== 'undefined') {
         level = 0;
-        rootClass = getStyleAttributes('rootElement');
+        rootStyle = rootElementStyles;
       }
       else {
-        rootClass = getStyleAttributes('subElement');
+        rootStyle = subElementStyles;
       }
       
       componentLevel = subLevel;
@@ -143,13 +181,25 @@ var JsonToHtml = (function() {
 
         if (typeof v === 'object') {
           colspan += level; 
-          html += '<tr style="height:25px"><td style="' + rootClass+ '" colspan="3">' + getIndent(level) + k + suffix + '</td></tr>';
+
+          html += '<tr style="' + trStyles + '">';
+          html += '  <td style="' + rootStyle + '" colspan="3">';
+          html +=      getIndent(level) + k + suffix;
+          html += '  </td>';
+          html += '</tr>';
           html += getSpacer();
+
           level += 1;
         }
         else {
-          var style = getStyleAttributes('jsonTd') + getStyleAttributes('dataCell')
-          html += '<tr style="height:25px"><td style="' + rootClass + '">' + getIndent(level) + k + suffix + '</td><td style="' + style + '" colspan="2">' + v + '</td></tr>';
+          var style = tdStyles + dataCellStyles;
+
+          html += '<tr style="' + trStyles + '">';
+          html += '  <td style="' + rootStyle + '">';
+          html +=      getIndent(level) + k + suffix;
+          html += '  </td>';
+          html += '  <td style="' + style + '" colspan="2">' + v + '</td>';
+          html += '</tr>';
           html += getSpacer();
         }
        
