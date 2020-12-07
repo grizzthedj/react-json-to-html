@@ -1,6 +1,6 @@
 {
   "name": "react-json-to-html",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A React component to render a simple HTML table from JSON object",
   "main": "dist/App.js",
   "scripts": {
